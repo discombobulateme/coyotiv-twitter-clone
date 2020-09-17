@@ -6,10 +6,10 @@ const tweetSchema = new mongoose.Schema(
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      autopopulate: { select: 'handle' },
+      // autopopulate: { select: 'handle' },
       required: true,
     },
-    description: {
+    body: {
       type: String,
       required() {
         // only required when you are tweeting, retweet has already a description
@@ -19,7 +19,7 @@ const tweetSchema = new mongoose.Schema(
     originalTweet: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Tweet',
-      autopopulate: { maxDepth: 1 },
+      // autopopulate: { maxDepth: 1 },
     },
     retweets: [
       {
@@ -28,10 +28,6 @@ const tweetSchema = new mongoose.Schema(
       },
     ],
     attachments: [],
-    creaetdAt: {
-      type: Date,
-      default: new Date(),
-    },
     // replies: [
     //   {
     //     type: mongoose.Schema.Types.ObjectId,
