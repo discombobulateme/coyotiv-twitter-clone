@@ -1,0 +1,12 @@
+Todo list to finish a Twitter clone:
+
+[] Add classes to model
+[] Verify database connection
+[] Add Vue.js
+[] Make back and frontend to talk
+
+[] Hasan Bhutta: a lil slow
+
+[] Tamay Eser Uysal: Add updatedAt enable tweet editing
+[] Ilkay Dinc: Add tag user
+[] Ilkay Dinc: Add reply
