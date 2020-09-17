@@ -11,11 +11,6 @@
     "lint-frontend": "cd frontend && npm run lint",
     "lint": "concurrently \"npm run lint-backend\" \"npm run lint-frontend\""
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint-staged"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dashersw/stack.git"
