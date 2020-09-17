@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
+import 'bootstrap'
+
 import App from './app.vue'
 import './register-service-worker'
 import router from './router'
