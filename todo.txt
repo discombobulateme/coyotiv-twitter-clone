@@ -1,9 +1,9 @@
 Todo list to finish a Twitter clone:
 
-[] Add classes to model
-[] Verify database connection
-[] Add Vue.js
-[] Make back and frontend to talk
+[X] Add classes to model
+[X] Verify database connection
+[X] Add Vue.js
+[X] Make back and frontend to talk
 
 [] Hasan Bhutta: a lil slow
 
