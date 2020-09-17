@@ -8,6 +8,9 @@ export default createStore({
     async fetchUsers() {
       return (await axios.get('/api/users')).data
     },
+    async fetchTweets() {
+      return (await axios.get('/api/tweets')).data
+    },
   },
   modules: {},
 })
