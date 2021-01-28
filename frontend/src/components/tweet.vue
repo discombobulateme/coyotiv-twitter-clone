@@ -7,7 +7,18 @@ import ShareIcon from 'bootstrap-icons/icons/upload.svg'
 export default {
   name: 'Tweet',
   components: { RepliesIcon, RetweetsIcon, LikesIcon, ShareIcon },
-  props: ['body', 'date', 'replies', 'retweets', 'likes', 'author', 'originalTweet'],
+  props: [
+    'body',
+    'date',
+    'replies',
+    'retweets',
+    'likes',
+    'author',
+    'originalTweet',
+    'isQuoteRetweet',
+    'isSimpleRetweet',
+    'retweetingAuthor',
+  ],
 }
 </script>
 
@@ -15,15 +26,28 @@ export default {
 .shadow.rounded-lg.px-0
   .card-body.container
     .row.gx-3
+      p(v-if='isSimpleRetweet')
+        RetweetsIcon
+        strong &nbsp;{{ retweetingAuthor.name }}&nbsp;
+        | retweeted
+    .row.gx-3
       .col-auto
-        img(:src="`/img/${author.handle}.jpg`").avatar.shadow.rounded-circle
+        img.avatar.shadow.rounded-circle(:src='`/img/${author.handle}.jpg`')
       .col
         h5.card-title {{ author.name }}
           small
             span.font-weight-normal.ml-1.small.text-muted @{{ author.handle }} · {{ date }}
-        p.card-text(v-html="body")
-        p(v-if="originalTweet") Hello Retweet
-        .d-flex.justify-content-between.text-muted.w-75
+        p.card-text(v-html='body')
+        Tweet.mb-4(
+          v-if='originalTweet',
+          :likes='originalTweet.likes.length',
+          :body='originalTweet.body',
+          :date='originalTweet.createdAt',
+          :retweets='originalTweet.retweets.length',
+          :author='originalTweet.author',
+          :isQuoteRetweet='body && originalTweet'
+        )
+        .d-flex.justify-content-between.text-muted.w-75(v-if='!isQuoteRetweet')
           span
             RepliesIcon
             small.pl-2 {{ replies }}

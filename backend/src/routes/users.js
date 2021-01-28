@@ -19,6 +19,7 @@ router.get('/initialize', async (req, res) => {
 
   await pcultural.tweet(tweet1)
   await dashersw.retweet(tweet1, "Look at who's here! Welcome @pcultural")
+  await dashersw.retweet(tweet1)
   await dashersw.like(tweet1)
 
   res.send('Initializes 🥳')
