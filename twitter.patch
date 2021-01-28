@@ -1,0 +1,787 @@
+From 6e5f5ecca86aa03751617cd5d1cbb33c56388208 Mon Sep 17 00:00:00 2001
+From: Armagan Amcalar <armagan@amcalar.com>
+Date: Thu, 3 Sep 2020 17:39:41 +0200
+Subject: [PATCH] Add Twitter clone base files
+
+---
+ frontend/package-lock.json              |  44 +++++
+ frontend/package.json                   |   6 +-
+ frontend/src/app.vue                    | 219 +++++++++++++++++++++++-
+ frontend/src/assets/coyotiv.jpg         | Bin 0 -> 3297 bytes
+ frontend/src/assets/dashersw.jpg        | Bin 0 -> 3253 bytes
+ frontend/src/assets/pcultural.jpg       | Bin 0 -> 6132 bytes
+ frontend/src/assets/theme.scss          |  27 +++
+ frontend/src/components/hello-world.vue |  13 --
+ frontend/src/components/tweet.vue       |  44 +++++
+ frontend/src/main.js                    |   2 +
+ frontend/src/views/home.vue             |  42 ++++-
+ frontend/vue.config.js                  |  12 ++
+ 12 files changed, 384 insertions(+), 25 deletions(-)
+ create mode 100644 frontend/src/assets/coyotiv.jpg
+ create mode 100644 frontend/src/assets/dashersw.jpg
+ create mode 100644 frontend/src/assets/pcultural.jpg
+ delete mode 100644 frontend/src/components/hello-world.vue
+ create mode 100644 frontend/src/components/tweet.vue
+
+diff --git a/frontend/package-lock.json b/frontend/package-lock.json
+index f77d2d6..674b1eb 100644
+--- a/frontend/package-lock.json
++++ b/frontend/package-lock.json
+@@ -3748,6 +3748,16 @@
+       "integrity": "sha1-aN/1++YMUes3cl6p4+0xDcwed24=",
+       "dev": true
+     },
++    "bootstrap": {
++      "version": "5.0.0-alpha1",
++      "resolved": "https://registry.npmjs.org/bootstrap/-/bootstrap-5.0.0-alpha1.tgz",
++      "integrity": "sha512-iwKneP2pLXl8lN0YpnOuOARiNPTzmh/4cw+Un86u4OqrMLuQpyMC7nO07hvivvcg0B/ektJPjuPnS1s+YmRK9A=="
++    },
++    "bootstrap-icons": {
++      "version": "1.0.0",
++      "resolved": "https://registry.npmjs.org/bootstrap-icons/-/bootstrap-icons-1.0.0.tgz",
++      "integrity": "sha512-PaQm3VtSqbUnWuyqGmFJG5iF9UMieDuk8raPOmKOtKeyWyiVshgLoKa+9EWGolGU/nvyBLEBWhZoQqhu9ccNBg=="
++    },
+     "brace-expansion": {
+       "version": "1.1.11",
+       "resolved": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.11.tgz",
+@@ -12069,6 +12079,11 @@
+         "ts-pnp": "^1.1.6"
+       }
+     },
++    "popper.js": {
++      "version": "1.16.1",
++      "resolved": "https://registry.npmjs.org/popper.js/-/popper.js-1.16.1.tgz",
++      "integrity": "sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ=="
++    },
+     "portfinder": {
+       "version": "1.0.28",
+       "resolved": "https://registry.npmjs.org/portfinder/-/portfinder-1.0.28.tgz",
+@@ -15607,6 +15622,35 @@
+         }
+       }
+     },
++    "vue-svg-loader": {
++      "version": "0.17.0-beta.1",
++      "resolved": "https://registry.npmjs.org/vue-svg-loader/-/vue-svg-loader-0.17.0-beta.1.tgz",
++      "integrity": "sha512-lUEgQ2ZrxCw4ZWJjgcXgsiSd1xSNJu+outZ3pJqGbJ9AiSQDD3SoRaqZE1/NcP1U4J9XYKLipwsb/Hoi9ArJ5g==",
++      "dev": true,
++      "requires": {
++        "loader-utils": "^2.0.0",
++        "semver": "^7.3.2"
++      },
++      "dependencies": {
++        "loader-utils": {
++          "version": "2.0.0",
++          "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-2.0.0.tgz",
++          "integrity": "sha512-rP4F0h2RaWSvPEkD7BLDFQnvSf+nK+wr3ESUjNTyAGobqrijmW92zc+SO6d4p4B1wh7+B/Jg1mkQe5NYUEHtHQ==",
++          "dev": true,
++          "requires": {
++            "big.js": "^5.2.2",
++            "emojis-list": "^3.0.0",
++            "json5": "^2.1.2"
++          }
++        },
++        "semver": {
++          "version": "7.3.2",
++          "resolved": "https://registry.npmjs.org/semver/-/semver-7.3.2.tgz",
++          "integrity": "sha512-OrOb32TeeambH6UrhtShmF7CRDqhL6/5XpPNp2DuRH6+9QLw/orhp72j87v8Qa1ScDkvrrBNpZcDejAirJmfXQ==",
++          "dev": true
++        }
++      }
++    },
+     "vue-template-es2015-compiler": {
+       "version": "1.9.1",
+       "resolved": "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz",
+diff --git a/frontend/package.json b/frontend/package.json
+index 635c2e7..43bfeb5 100644
+--- a/frontend/package.json
++++ b/frontend/package.json
+@@ -11,8 +11,11 @@
+   },
+   "dependencies": {
+     "axios": "^0.20.0",
++    "bootstrap": "^5.0.0-alpha1",
++    "bootstrap-icons": "^1.0.0",
+     "core-js": "^3.6.5",
+     "normalize.css": "^8.0.1",
++    "popper.js": "^1.16.1",
+     "register-service-worker": "^1.7.1",
+     "vue": "^3.0.0-0",
+     "vue-router": "^4.0.0-0",
+@@ -41,7 +44,8 @@
+     "sass": "^1.26.5",
+     "sass-loader": "^8.0.2",
+     "typescript": "~3.9.3",
+-    "vue-jest": "^5.0.0-0"
++    "vue-jest": "^5.0.0-0",
++    "vue-svg-loader": "^0.17.0-beta.1"
+   },
+   "gitHooks": {
+     "pre-commit": "lint-staged"
+diff --git a/frontend/src/app.vue b/frontend/src/app.vue
+index dbbca47..5d78dcf 100644
+--- a/frontend/src/app.vue
++++ b/frontend/src/app.vue
+@@ -1,12 +1,217 @@
++<script>
++import Logo from 'bootstrap-icons/icons/triangle-fill.svg'
++import HomeIcon from 'bootstrap-icons/icons/house-fill.svg'
++import ExploreIcon from 'bootstrap-icons/icons/hash.svg'
++import NotificationsIcon from 'bootstrap-icons/icons/bell.svg'
++import MessagesIcon from 'bootstrap-icons/icons/envelope.svg'
++import BookmarksIcon from 'bootstrap-icons/icons/bookmarks.svg'
++import ListsIcon from 'bootstrap-icons/icons/card-list.svg'
++import ProfileIcon from 'bootstrap-icons/icons/person.svg'
++import MoreIcon from 'bootstrap-icons/icons/three-dots.svg'
++import ChevronDownIcon from 'bootstrap-icons/icons/chevron-down.svg'
++import SearchIcon from 'bootstrap-icons/icons/search.svg'
++
++export default {
++  name: 'App',
++  components: {
++    Logo,
++    HomeIcon,
++    ExploreIcon,
++    NotificationsIcon,
++    MessagesIcon,
++    BookmarksIcon,
++    ListsIcon,
++    ProfileIcon,
++    MoreIcon,
++    ChevronDownIcon,
++    SearchIcon,
++  },
++}
++</script>
++
+ <template lang="pug">
+-#app
+-  #nav
+-    router-link(to="/") Home
+-    span &nbsp;|&nbsp;
+-    router-link(to="/about") About
+-  router-view
++#app.container-xxl
++  .row
++    menu.col-3.gy-3
++      .container.rounded
++        Logo.logo.ml-3
++        div.list-group.list-group-flush.mt-3
++          button.list-group-item.list-group-item-action.active
++            HomeIcon
++            span.h5 Home
++          button.list-group-item.list-group-item-action
++            ExploreIcon
++            span.h5 Explore
++          button.list-group-item.list-group-item-action
++            NotificationsIcon
++            span.h5 Notifications
++          button.list-group-item.list-group-item-action
++            MessagesIcon
++            span.h5 Messages
++          button.list-group-item.list-group-item-action
++            BookmarksIcon
++            span.h5 Bookmarks
++          button.list-group-item.list-group-item-action
++            ListsIcon
++            span.h5 Lists
++          button.list-group-item.list-group-item-action
++            ProfileIcon
++            span.h5 Profile
++          button.list-group-item.list-group-item-action
++            MoreIcon
++            span.h5 More
++          button.tweet-btn.btn.btn-lg.btn-primary.rounded-pill(type="button") Tweet
++    router-view.col-6
++    .discovery.col-3.gy-3
++      .container.rounded
++        .row.position-relative
++          input.search.form-control.form-control-lg.border-0(type="text" placeholder="Search" aria-label="Search Twitter")
++          SearchIcon.position-absolute.text-muted
++        .row
++          .col.gy-3
++            h4.py-3 Trends for you
++            .shadow.rounded-lg
++              .list-group
++                a.list-group-item.list-group-item-action(href="#")
++                  .d-flex.w-100.justify-content-between.small
++                    small Trending in Germany
++                    ChevronDownIcon.chevron
++                  h6.m-1 #coyotivisawesome
++                  small.text-muted
++                    span.small 10.4K Tweets
++                a.list-group-item.list-group-item-action(href="#")
++                  .d-flex.w-100.justify-content-between.small
++                    small Trending in Germany
++                    ChevronDownIcon.chevron
++                  h6.m-1 #wearamask
++                  small.text-muted
++                    span.small 16K Tweets
++                a.list-group-item.list-group-item-action(href="#")
++                  .d-flex.w-100.justify-content-between.small
++                    small Politics · Trending
++                    ChevronDownIcon.chevron
++                  h6.m-1 #blacklivesmatter
++                  small.text-muted
++                    span.small 26.3K Tweets
++                a.list-group-item.list-group-item-action(href="#")
++                  .d-flex.w-100.justify-content-between.small
++                    small Politics · Trending
++                    ChevronDownIcon.chevron
++                  h6.m-1 #nazisgohome
++                  small.text-muted
++                    span.small 412K Tweets
++                a.list-group-item.list-group-item-action(href="#")
++                  .d-flex.w-100.justify-content-between.small
++                    small Trending in Germany
++                    ChevronDownIcon.chevron
++                  h6.m-1 #coyotivrocks
++                  small.text-muted
++                    span.small 14K Tweets
++                a.list-group-item.list-group-item-action(href="#")
++                  .d-flex.w-100.justify-content-between.small
++                    small Programming · Trending
++                    ChevronDownIcon.chevron
++                  h6.m-1 #100daysofcode
++                  small.text-muted
++                    span.small 96K Tweets
++        .row
++          .col.gy-3
++            h4.py-3 Who to follow
++            .shadow.rounded-lg
++              .list-group
++                a.list-group-item.list-group-item-action(href="#")
++                  .row.gx-0.py-2
++                    .col
++                      img(src="./assets/coyotiv.jpg").avatar.rounded-circle.shadow
++                    .col-5
++                      p.mb-0.text-truncate ^^coyotiv
++                      p.mb-0.text-muted.text-truncate @coyotiv
++                    .col-auto.d-flex.align-items-center
++                      button.btn.btn-outline-primary.rounded-pill Follow
++                a.list-group-item.list-group-item-action(href="#")
++                  .row.gx-0.py-2
++                    .col
++                      img(src="./assets/dashersw.jpg").avatar.rounded-circle.shadow
++                    .col-5
++                      p.mb-0.text-truncate Armagan Amcalar
++                      p.mb-0.text-muted.text-truncate @dashersw
++                    .col-auto.d-flex.align-items-center
++                      button.btn.btn-outline-primary.rounded-pill Follow
++                a.list-group-item.list-group-item-action(href="#")
++                  .row.gx-0.py-2
++                    .col
++                      img(src="./assets/pcultural.jpg").avatar.rounded-circle.shadow
++                    .col-5
++                      p.mb-0.text-truncate Paloma Oliveira
++                      p.mb-0.text-muted.text-truncate @pcultural
++                    .col-auto.d-flex.align-items-center
++                      button.btn.btn-outline-primary.rounded-pill Follow
+ </template>
+ 
+ <style lang="scss">
+-@import '@/assets/theme.scss';
++@import './assets/theme';
++@import '~bootstrap/scss/bootstrap';
++
++#app > .row {
++  min-height: 100vh;
++}
++
++.logo {
++  color: var(--bs-primary);
++}
++</style>
++
++<style lang="scss" scoped>
++menu svg {
++  font-size: 2rem;
++}
++
++menu .list-group svg {
++  font-size: 1.4rem;
++  margin: 0 0.8rem 0 0;
++  vertical-align: top;
++}
++
++menu .list-group-item {
++  border: none;
++  padding: 1rem;
++}
++
++menu .list-group-item.active {
++  color: var(--bs-primary);
++  background: none !important;
++  border: none !important;
++}
++
++.tweet-btn {
++  color: white;
++}
++
++.search {
++  box-shadow: 0 0.5rem 1rem rgba(29, 161, 242, 0.15);
++  padding-left: 2.8rem;
++
++  & + svg {
++    top: 0.9rem;
++    font-size: 1.2rem;
++    left: 0.2rem;
++    display: inline-block;
++    width: auto;
++    transition: 0.3s;
++  }
++
++  &:focus + svg {
++    color: rgba(29, 161, 242) !important;
++  }
++}
++
++.discovery .list-group-item {
++  border: none;
++}
++
++.avatar {
++  height: 3rem;
++  width: 3rem;
++  font-size: 2rem;
++}
+ </style>
+diff --git a/frontend/src/assets/coyotiv.jpg b/frontend/src/assets/coyotiv.jpg
+new file mode 100644
+index 0000000000000000000000000000000000000000..53200298d039ff18cb653de5d670093ad104d766
+GIT binary patch
+literal 3297
+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
+So`|d00pGoN)=Sd=Q~m`L$%E7Y
+
+literal 0
+HcmV?d00001
+
+diff --git a/frontend/src/assets/dashersw.jpg b/frontend/src/assets/dashersw.jpg
+new file mode 100644
+index 0000000000000000000000000000000000000000..57920bfd4606a5bef97f870ba4c1e506642ab3d3
+GIT binary patch
+literal 3253
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/frontend/src/assets/pcultural.jpg b/frontend/src/assets/pcultural.jpg
+new file mode 100644
+index 0000000000000000000000000000000000000000..b13d026c9c7233c2de472471a97f11737d410dc0
+GIT binary patch
+literal 6132
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/frontend/src/assets/theme.scss b/frontend/src/assets/theme.scss
+index 30c1305..b9ab0b2 100644
+--- a/frontend/src/assets/theme.scss
++++ b/frontend/src/assets/theme.scss
+@@ -2,3 +2,30 @@ body {
+   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+     'Helvetica Neue', sans-serif;
+ }
++
++$primary: #1da1f2;
++$secondary: #14171a;
++$black: $secondary;
++$success: $primary;
++$gray-dark: #657786;
++
++$gray-100: #f5f8fa;
++$gray-200: #e1e8ed;
++$gray-500: #aab8c2;
++$gray-600: #657786;
++$gray-900: #14171a;
++
++$border-radius-lg: 1rem;
++
++$box-shadow: 0 0.5rem 1rem rgba($primary, 0.15) !default;
++$box-shadow-sm: 0 0.125rem 0.25rem rgba($primary, 0.075) !default;
++$box-shadow-lg: 0 1rem 3rem rgba($primary, 0.175) !default;
++$box-shadow-inset: inset 0 1px 2px rgba($primary, 0.075) !default;
++
++a {
++  text-decoration: none !important;
++
++  &:hover {
++    text-decoration: underline;
++  }
++}
+diff --git a/frontend/src/components/hello-world.vue b/frontend/src/components/hello-world.vue
+deleted file mode 100644
+index ee8cd3d..0000000
+--- a/frontend/src/components/hello-world.vue
++++ /dev/null
+@@ -1,13 +0,0 @@
+-<script>
+-export default {
+-  name: 'HelloWorld',
+-  props: {
+-    msg: String,
+-  },
+-}
+-</script>
+-
+-<template lang="pug">
+-.hello
+-  h1 {{ msg }}
+-</template>
+diff --git a/frontend/src/components/tweet.vue b/frontend/src/components/tweet.vue
+new file mode 100644
+index 0000000..01c54dc
+--- /dev/null
++++ b/frontend/src/components/tweet.vue
+@@ -0,0 +1,44 @@
++<script>
++import RepliesIcon from 'bootstrap-icons/icons/chat.svg'
++import RetweetsIcon from 'bootstrap-icons/icons/arrow-repeat.svg'
++import LikesIcon from 'bootstrap-icons/icons/heart.svg'
++import ShareIcon from 'bootstrap-icons/icons/upload.svg'
++
++export default {
++  name: 'Tweet',
++  components: { RepliesIcon, RetweetsIcon, LikesIcon, ShareIcon },
++  props: ['body', 'date', 'replies', 'retweets', 'likes'],
++}
++</script>
++
++<template lang="pug">
++.shadow.rounded-lg.px-0
++  .card-body.container
++    .row.gx-3
++      .col-auto
++        img(src="../assets/dashersw.jpg").avatar.shadow.rounded-circle
++      .col
++        h5.card-title Armagan Amcalar
++          small
++            span.font-weight-normal.ml-1.small.text-muted @dashersw · {{ date }}
++        p.card-text(v-html="body")
++        .d-flex.justify-content-between.text-muted.w-75
++          span
++            RepliesIcon
++            small.pl-2 {{ replies }}
++          span
++            RetweetsIcon
++            small.pl-2 {{ retweets }}
++          span
++            LikesIcon
++            small.pl-2 {{ likes }}
++          span
++            ShareIcon
++</template>
++
++<style lang="scss" scoped>
++.avatar {
++  height: 3rem;
++  width: 3rem;
++}
++</style>
+diff --git a/frontend/src/main.js b/frontend/src/main.js
+index c1586dc..4217732 100644
+--- a/frontend/src/main.js
++++ b/frontend/src/main.js
+@@ -1,4 +1,6 @@
+ import { createApp } from 'vue'
++import 'bootstrap'
++
+ import App from './app.vue'
+ import './register-service-worker'
+ import router from './router'
+diff --git a/frontend/src/views/home.vue b/frontend/src/views/home.vue
+index 1d3bd85..f10eeab 100644
+--- a/frontend/src/views/home.vue
++++ b/frontend/src/views/home.vue
+@@ -1,12 +1,12 @@
+ <script>
+ import { mapActions } from 'vuex'
+ 
+-import HelloWorld from '@/components/hello-world.vue'
++import Tweet from '@/components/tweet.vue'
+ 
+ export default {
+   name: 'Home',
+   components: {
+-    HelloWorld,
++    Tweet,
+   },
+   created() {
+     this.fetchUsers()
+@@ -18,6 +18,40 @@ export default {
+ </script>
+ 
+ <template lang="pug">
+-.home
+-  hello-world(msg="Welcome to your stack.")
++.container.gy-3
++    .row
++      h2 Home
++    .row.gy-4
++      .shadow.rounded-lg.card-body
++          .row.gx-3
++            .col-auto
++              img(src="../assets/dashersw.jpg").avatar.shadow.rounded-circle
++            .col
++              .container
++                .row
++                  .col.gx-0
++                    textarea.border-0.form-control.form-control-lg(rows="2" placeholder="What's happening?" aria-label="Tweet input")
++                .row
++                  .col.gy-3.gx-0
++                    .d-flex.justify-content-end
++                      button.btn.btn-primary.rounded-pill(type="button") Tweet
++      Tweet(likes="4" date="Aug 28" body=`So apparently <a href="">@github</a> has a require linear history feature on top of squash merging and rebase merging... however, this still doesn't solve the issue! <a href="">@gitlab</a>'s "semi-"linear history is way, way better in this sense. Just rebase the damn branch and let us have a merge commit!`)
++      Tweet(replies="1" likes="9" date="Aug 23" body=`Here I am, trying to install a macOS update that calls itself “supplemental” and has nothing to do with my system, and it says it will take 40 minutes. Hello Microsoft, I didn’t know you had a product called macOS.`)
++      Tweet(likes="11" date="Aug 22" body=`Before there was MP3, there was MIDI. One of the first apps I wrote from around 1999 was a music player for Metallica MIDIs. I had found great MIDI reproductions of all Metallica songs and built them into an app with lyrics and album covers for the entire discography. It was fun!`)
++      Tweet(retweets="2" likes="20" body=`Software is inherently buggy, because the minds creating it are not given the opportunity they need to craft good software. They don’t even have the time to learn the intricacies of the craft. There’s a race down to 0. Agile won’t save you. You need to let people think.`)
+ </template>
++
++<style lang="scss" scoped>
++.avatar {
++  height: 3rem;
++  width: 3rem;
++}
++
++textarea:focus {
++  box-shadow: 0 0.5rem 1rem rgba(29, 161, 242, 0.15);
++}
++
++button {
++  color: white;
++}
++</style>
+diff --git a/frontend/vue.config.js b/frontend/vue.config.js
+index 8e32b25..d26048f 100644
+--- a/frontend/vue.config.js
++++ b/frontend/vue.config.js
+@@ -3,4 +3,16 @@ module.exports = {
+     disableHostCheck: true,
+   },
+   lintOnSave: false,
++  chainWebpack: config => {
++    const svgRule = config.module.rule('svg')
++
++    svgRule.uses.clear()
++
++    svgRule
++      .use('vue-loader')
++      .loader('vue-loader-v16')
++      .end()
++      .use('vue-svg-loader')
++      .loader('vue-svg-loader')
++  },
+ }
+-- 
+2.27.0
+
