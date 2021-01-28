@@ -6,7 +6,7 @@ const tweetSchema = new mongoose.Schema(
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      // autopopulate: { select: 'handle' },
+      autopopulate: { select: 'handle name' },
       required: true,
     },
     body: {
@@ -19,7 +19,7 @@ const tweetSchema = new mongoose.Schema(
     originalTweet: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Tweet',
-      // autopopulate: { maxDepth: 1 },
+      autopopulate: { maxDepth: 2 },
     },
     retweets: [
       {

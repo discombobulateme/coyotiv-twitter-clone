@@ -51,7 +51,8 @@ export default {
       :body='tweet.body',
       :date='tweet.createdAt',
       :retweets='tweet.retweets.length',
-      :author='tweet.author'
+      :author='tweet.author',
+      :originalTweet='tweet.originalTweet'
     )
     //- Tweet(likes="4" date="Aug 28" body=`So apparently <a href="">@github</a> has a require linear history feature on top of squash merging and rebase merging... however, this still doesn't solve the issue! <a href="">@gitlab</a>'s "semi-"linear history is way, way better in this sense. Just rebase the damn branch and let us have a merge commit!`)
     //- Tweet(replies="1" likes="9" date="Aug 23" body=`Here I am, trying to install a macOS update that calls itself “supplemental” and has nothing to do with my system, and it says it will take 40 minutes. Hello Microsoft, I didn’t know you had a product called macOS.`)

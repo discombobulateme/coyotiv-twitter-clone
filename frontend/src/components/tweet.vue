@@ -7,7 +7,7 @@ import ShareIcon from 'bootstrap-icons/icons/upload.svg'
 export default {
   name: 'Tweet',
   components: { RepliesIcon, RetweetsIcon, LikesIcon, ShareIcon },
-  props: ['body', 'date', 'replies', 'retweets', 'likes', 'author'],
+  props: ['body', 'date', 'replies', 'retweets', 'likes', 'author', 'originalTweet'],
 }
 </script>
 
@@ -22,6 +22,7 @@ export default {
           small
             span.font-weight-normal.ml-1.small.text-muted @{{ author.handle }} · {{ date }}
         p.card-text(v-html="body")
+        p(v-if="originalTweet") Hello Retweet
         .d-flex.justify-content-between.text-muted.w-75
           span
             RepliesIcon

@@ -26,28 +26,24 @@ const userSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        autopopulate: { maxDepth: 1 },
       },
     ],
     followers: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        autopopulate: { maxDepth: 1 },
       },
     ],
     tweets: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tweet',
-        autopopulate: { maxDepth: 2 },
       },
     ],
     likedTweets: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tweet',
-        autopopulate: { maxDepth: 1 },
       },
     ],
   },
