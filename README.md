@@ -1,8 +1,36 @@
-# stack
+# Coyotiv Twitter Clone
 
-A starter repository for MongoDB, Node.js, and Vue.js, with a local environment based on Docker.
+This is an ongoing learning purpuse project, part of [Coyotiv School of Software Engineer](https://www.coyotiv.com/school-of-software-engineering/)
+It was build together with @dashersw during Live Pair Programming sessions, you can find the recordings and follow along here:
+- [Pair programming session: How to build a Twitter clone](https://www.youtube.com/watch?v=K_9t3lAJxw4&t=6297s&ab_channel=Coyotiv)
+- [Pair programming session: How to build a Twitter clone - Part 2](https://youtu.be/JB_89ndjQAI)
+- [Pair programming session: How to build a Twitter clone - Part 3](https://youtu.be/hoWuk2HOWQo)
+
+
+# Get Started
+
+Fork this repository 
+Navigate to a directory you will like to have it
+Clone it :) 
+
+```
+$ git clone git@github.com:discombobulateme/coyotiv-twitter-clone.git
+```
+
+Open the project folder
+
+```
+$ cd coyotiv-twitter-clone
+```
+Intall all the dependencies... 
 
 # Installation
+
+## Installing dependencies
+
+```
+$ docker-compose up --build
+```
 
 ## Running the stack
 
@@ -64,6 +92,11 @@ $ npm test:e2e
 Run `npm install` on the root folder and it will set up a pre-commit hook to lint the staged files. You will also have two lint commands, `npm run lint` and `npm run lint-staged` that you can run on the root folder.
 
 These commands run the individual `lint` and `lint-staged` scripts in both the `frontend` and the `backend` folders, and they will respect individual configurations of these folders.
+
+# Acknowledgments
+
+This project uses [Coyotiv Stack Template Repository](https://github.com/coyotiv/stack) as base
+
 
 # License
 
