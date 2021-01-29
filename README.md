@@ -1,6 +1,9 @@
 # Coyotiv Twitter Clone
 
 This is an ongoing learning purpuse project, part of [Coyotiv School of Software Engineer](https://www.coyotiv.com/school-of-software-engineering/)
+
+We are building the back and frontend of a website using JavaScript stack: Node.js & Vue.js and MongoDB as database.  We are usig Twitter as a model and excuse to understand how does the web applications we use on daily basis are built
+
 It was build together with @dashersw during Live Pair Programming sessions, you can find the recordings and follow along here:
 - [Pair programming session: How to build a Twitter clone](https://www.youtube.com/watch?v=K_9t3lAJxw4&t=6297s&ab_channel=Coyotiv)
 - [Pair programming session: How to build a Twitter clone - Part 2](https://youtu.be/JB_89ndjQAI)
@@ -10,7 +13,9 @@ It was build together with @dashersw during Live Pair Programming sessions, you 
 # Get Started
 
 Fork this repository 
+
 Navigate to a directory you will like to have it
+
 Clone it :) 
 
 ```
